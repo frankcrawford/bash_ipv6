@@ -29,12 +29,27 @@ hex2dec() {
     [ "$1" != "" ] && printf "%d" "$(( 0x$1 ))"
 }
 
+# convert ipv6 to lowercase
+# inspired by https://stackoverflow.com/a/51573758/14179001
+lowercase_ipv6() { # <ipv6-address> - echoes result
+    local lcs="abcdef" ucs="ABCDEF"
+    local result="${1-}" uchar uoffset
+
+    while [[ "$result" =~ ([A-F]) ]]; do
+        uchar="${BASH_REMATCH[1]}"
+        uoffset="${ucs%%${uchar}*}"
+        result="${result//${uchar}/${lcs:${#uoffset}:1}}"
+    done
+
+  echo -n "$result"
+}
+
 # expand an IPv6 address
 expand_ipv6() {
-    local ip=$1
+    local ip=$(lowercase_ipv6 $1)
 
     # prepend 0 if we start with :
-    [[ "$1" =~ ^: ]] && ip="0${ip}"
+    [[ "$ip" =~ ^: ]] && ip="0${ip}"
 
     # expand ::
     if [[ "$ip" =~ :: ]]; then
@@ -142,16 +157,17 @@ ipv6_interface() {
 
 # a valid IPv6 in either the expanded form or the compressed one
 is_ipv6() {
-    local expanded="$(expand_ipv6 $1)"
-    [ "$1" = "$expanded" ] && return 0
+    local orig=$(lowercase_ipv6 $1)
+    local expanded="$(expand_ipv6 $orig)"
+    [ "$orig" = "$expanded" ] && return 0
     local compressed="$(compress_ipv6 $expanded)"
-    [ "$1" = "$compressed" ] && return 0
+    [ "$orig" = "$compressed" ] && return 0
     return 1
 }
 
 # return IPv6 address category
 ipv6_type() {
-    local ip=$1
+    local ip=$(lowercase_ipv6 $1)
 
     # Technically should be /10 but ipv6_prefix doesn't handle that
     if [[ $(ipv6_prefix $ip 16) == 'fe80::' ]]; then
