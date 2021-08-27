@@ -4,7 +4,7 @@
 
 for ip in "$@"
 do
-	set ${ip/\// }
+	set $(ipv6_split_mask $ip)
 	ip=$1
 	sn=${2:-64}
 
