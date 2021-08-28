@@ -1,4 +1,7 @@
 #! /bin/bash
+#
+# Testing and sample script for the ipv6_utils.sh functions
+#
 
 . ipv6_utils.sh
 

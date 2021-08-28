@@ -4,6 +4,8 @@
 #
 # Based loosely on wg-ip (https://github.com/chmduquesne/wg-ip)
 #
+# IPv6 definitions from https://en.wikipedia.org/wiki/IPv6_address
+#
 # Frank Crawford - <frank@crawford.emu.id.au> - 31-Jul-2021
 #
 # Functions:
