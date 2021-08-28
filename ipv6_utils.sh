@@ -13,8 +13,8 @@
 # - returns compressed IPv6 address ($ip) under the form recommended by RFC5952
 # ipv6_prefix $ip $subnet
 # - extract the IPv6 routing prefix from $ip with subnet length $subnet
-# ipv6_subnetid $ip $subnet
-# - extract the local subnet ID from unicast address ($ip)
+# ipv6_subnetid $ip $subnet $fmt
+# - extract the local subnet ID from unicast address ($ip) with optional $fmt
 # ipv6_interface $ip
 # - IPv6 host or interface part of address ($ip)
 # ipv6_split_mask $ip/$mask
@@ -140,6 +140,7 @@ ipv6_prefix() {
 ipv6_subnetid() {
     local ip=$(expand_ipv6 $1)
     local subnet=${2:-64}
+    local fmt="${3:-%x}"
 
     local len=$(( 64-$subnet ))
 
@@ -148,7 +149,7 @@ ipv6_subnetid() {
 	echo -n '-'
     else
         ip=${ip//:/}
-        printf "%x" "$(( 0x${ip:14:2} & ((1<<$len)-1) ))"
+        printf "$fmt" "$(( 0x${ip:14:2} & ((1<<$len)-1) ))"
     fi
 }
 
