@@ -16,8 +16,8 @@ do
 	echo "Prefix/${sn}: $(ipv6_prefix $ip $sn)"
 	echo "Prefix/56: $(ipv6_prefix $ip 56)"
 	echo "Interface ID: $(ipv6_interface $ip)"
-	echo "Subnet ID/${sn}: $(ipv6_subnetid $ip $sn)"
-	echo "Subnet ID/56: $(ipv6_subnetid $ip 56)"
+	echo "Subnet ID/${sn} (hex/dec): $(ipv6_subnetid $ip $sn)/$(ipv6_subnetid $ip $sn '%d')"
+	echo "Subnet ID/56 (hex/dec): $(ipv6_subnetid $ip 56)/$(ipv6_subnetid $ip 56 '%d')"
 
 	echo "Address type: $(ipv6_type $ip)"
 

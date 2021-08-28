@@ -3,6 +3,7 @@
 Calculate IPv6 address segments entirely in bash
 
 Based loosely on wg-ip (https://github.com/chmduquesne/wg-ip)
+IPv6 definitions from https://en.wikipedia.org/wiki/IPv6_address
 
 Frank Crawford - <frank@crawford.emu.id.au> - 31-Jul-2021
 
@@ -17,8 +18,8 @@ compress_ipv6 $ip
 ipv6_prefix $ip $subnet
 - extract the IPv6 routing prefix from $ip with subnet length $subnet
 
-ipv6_subnetid $ip $subnet
-- extract the local subnet ID from unicast address ($ip)
+ipv6_subnetid $ip $subnet $fmt
+- extract the local subnet ID from unicast address ($ip) with optional $fmt
 
 ipv6_interface $ip
 - IPv6 host or interface part of address ($ip)
